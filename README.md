@@ -1,9 +1,26 @@
+## Intro
+The apollo-graph-definition-generator is designed to help you conveniently generate graphql schema
+
+## graphDefinitionGenerator
+
+| Param | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| typeDefs | false | string | Graphql type definition which generator will concat with generated typedefs. |
+| resolversDir | true | string | Path to directory with resolvers. |
+| prepareMiddlewares | false | array[function] | Each function in this array should return apollo middleware. | 
+| logger | false | object | You can specify the logger lib will use. Logger should implement methods: 'info', 'warn', 'error'. By default uses console interface. | 
+| enumsDir | false | string | Path to your constants directory. See Enums section. You can define enums typeDefs by yourself. |
+| enumsKeywords | false | array[string] | See Enums section for more details |
+
+
+
+
 ## Resolver File Format
 
 **CREATE RESOLVER**
 1. Create file in the associated directory (directory name doesn't matter).
 2. Export an object which contains fields listed below:
-```angular2html
+```
 	type: String [required] - Resolver type. Possible values: 'mutation', 'query'.
 	name: String [required] - Resolver name
 	roleAccess: Array[String] [optional] - List of roles who will have access to this resolver. If this field missed, it means everyone have access.
@@ -12,21 +29,21 @@
 ```
         
 **EXAMPLE:**
-```angular2html
+```javascript
 {
-type: 'query',
-name: 'hello',
-roleAccess: ['owner', 'operator'],
-typeDef: `
+  type: 'query',
+  name: 'hello',
+  roleAccess: ['owner', 'operator'],
+  typeDef: `
 		extend type Query  {
 	   	hello(name:String): String
 	 	}
-`,
-resolverFunc: async (parent, { name }, { models }) => `Hello. ${name}! You are great =)`
+  `,
+  resolverFunc: async (parent, { name }, { models }) => `Hello. ${name}! You are great =)`
 }
 ```
 
-## Enums Library
+## Enums
 
 This document describes the behavior of the enumeration library.
 

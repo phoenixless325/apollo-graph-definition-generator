@@ -2,6 +2,7 @@ import { combineResolvers } from 'graphql-resolvers';
 import requireAll from './requireAll';
 import capitalize from 'lodash.capitalize';
 import transform from 'lodash.transform';
+import set from 'lodash.set';
 import generateEnums from './generateEnums';
 
 /*
@@ -38,9 +39,9 @@ const defaultLogger = {
 	error: console.error
 };
 
-export default ({ typeDefs = '', resolversDir, prepareMiddlewares, logger = defaultLogger, enumsDir, enumsKeywords = [] }) => {
+const graphDefinitionGenerator = ({ typeDefs = '', resolversDir, prepareMiddlewares, logger = defaultLogger, enumsDir, enumsKeywords = [], generatedEnums }) => {
 	
-	const enums = generateEnums(enumsDir, enumsKeywords);
+	const enums = generatedEnums || generateEnums(enumsDir, enumsKeywords);
 	const enumsTypeDef = transform(enums, (acc, val, key) => acc.push(` enum ${key} {${Object.keys(val)}}`), []).join(' ');
 	
 	if(!Array.isArray(prepareMiddlewares))
@@ -59,7 +60,7 @@ export default ({ typeDefs = '', resolversDir, prepareMiddlewares, logger = defa
 	resolvers =
 		resolvers
 			.reduce((acc, resolver) => {
-				let res = resolver.content.default; // fix require import from export default
+				let res = resolver.content.default;
 				
 				if (!res) {
 					logger.warn(`[WARN] File "${resolver.filePath}" should return resolver`);
@@ -113,18 +114,16 @@ export default ({ typeDefs = '', resolversDir, prepareMiddlewares, logger = defa
 				
 				if (resolver.type === 'scalar')
 					acc[resolver.name] = resolver.resolverFunc;
-				else if (resolver.type === 'subscription')
-					acc[capitalize(resolver.type)][resolver.name] = { subscribe: resolver.resolverFunc };
-				else
-					acc[capitalize(resolver.type)][resolver.name] =
-						combineResolvers.apply(null, [
-							...middlewares,
-							resolver.resolverFunc
-						]);
-				
+				else {
+					const resolverValue = resolver.type === 'subscription'
+						? { subscribe: resolver.resolverFunc }
+						: combineResolvers.apply(null, [...middlewares, resolver.resolverFunc]);
+					
+					set(acc, `${capitalize(resolver.type)}.${resolver.name}`, resolverValue);
+				}
 				
 				return acc;
-			}, { Mutation: {}, Query: {}, Subscription: {}, ...enums });
+			}, { ...enums });
 	
 	
 	
@@ -133,8 +132,14 @@ export default ({ typeDefs = '', resolversDir, prepareMiddlewares, logger = defa
 	
 	return {
 		resolvers,
-		typeDefs: typeDefinitions
+		typeDefs: typeDefinitions,
+		enums
 	};
 };
 
+export default graphDefinitionGenerator;
 
+export {
+	graphDefinitionGenerator,
+	generateEnums
+}
