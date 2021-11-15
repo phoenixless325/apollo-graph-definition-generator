@@ -1,5 +1,10 @@
 ## Intro
-The apollo-graph-definition-generator is designed to help you conveniently generate graphql schema
+The apollo-graph-definition-generator is designed to help you conveniently generate graphql schema.
+
+This library was designed for individual use, but if I see an increase in demand, I will maintain and expand the functionality in accordance with the wishes of users
+
+## Getting Started
+You can use completed [example](https://github.com/phoenixless325/apollo-graph-definition-generator/tree/master/example) for starting work with apollo-graph-definition-generator.
 
 ## graphDefinitionGenerator
 
@@ -11,9 +16,6 @@ The apollo-graph-definition-generator is designed to help you conveniently gener
 | logger | false | object | You can specify the logger lib will use. Logger should implement methods: 'info', 'warn', 'error'. By default uses console interface. | 
 | enumsDir | false | string | Path to your constants directory. See Enums section. You can define enums typeDefs by yourself. |
 | enumsKeywords | false | array[string] | See Enums section for more details |
-
-
-
 
 ## Resolver File Format
 
