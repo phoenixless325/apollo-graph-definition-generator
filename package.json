@@ -7,6 +7,10 @@
     "build": "npx babel src --out-dir build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phoenixless325/apollo-graph-definition-generator"
+  },
   "keywords": [
     "apollo",
     "server",
