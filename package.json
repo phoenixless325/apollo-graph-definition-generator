@@ -1,6 +1,6 @@
 {
   "name": "apollo-graph-definition-generator",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "This package simplifies the process of building an apollo graphql schemas",
   "main": "index.js",
   "scripts": {
