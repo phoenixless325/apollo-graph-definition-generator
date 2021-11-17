@@ -82,7 +82,7 @@ Car:{
     "CAR_COLOR_BLACK": "black',
 }
 ```
-If we specify two keywords - *'RED'* and *'TYPE'*, based on the *Car.js* file, two enumerations will be coded, with names like
+If we specify two keywords - *'COLOR'* and *'TYPE'*, based on the *Car.js* file, two enumerations will be coded, with names like
 ```angular2html
 [name of file][keyword]
 ```
@@ -103,7 +103,7 @@ This is not entirely correct behavior, since there is a need to form three enume
 *CarType, CarTransmissionType* and *CarColor*.
 
 Please note that the search for keywords is performed by their occurrence in the name of the constant.
-Thus, in the first four constants the keyword *'TYPE'* was found, and in two more - the keyword *'RED'*.
+Thus, in the first four constants the keyword *'TYPE'* was found, and in two more - the keyword *'COLOR'*.
 It follows from this that if you have keywords *A* and *B*, and *A* is a substring of *B*, then in the configuration of keywords *B* must necessarily come before *A*.
 
 For example, if we set the keywords as
