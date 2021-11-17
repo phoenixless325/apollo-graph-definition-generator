@@ -108,14 +108,14 @@ It follows from this that if you have keywords *A* and *B*, and *A* is a substri
 
 For example, if we set the keywords as
 ```angular2html
-'RED','TYPE','TRANSMISSION_TYPE'
+'COLOR','TYPE','TRANSMISSION_TYPE'
 ```
 the result will not change, we will still get two enumerations.
 This is because the library detects the *'TYPE'* keyword before it checks for occurrences of the keyword *'TRANSMISSION_TYPE'* in constant names.
 
 But if you change the order of keywords as follows
 ```angular2html
-'RED', 'TRANSMISSION_TYPE', 'TYPE'
+'COLOR', 'TRANSMISSION_TYPE', 'TYPE'
 ```
 three enumerations will be generated:
 ```angular2html
