@@ -1,6 +1,7 @@
 import upperFirst from 'lodash.upperfirst';
 import camelCase from 'lodash.camelcase';
 import transform from 'lodash.transform';
+import snakeCase from 'lodash.snakecase';
 import pick from 'lodash.pick';
 import requireAll from './requireAll';
 import path from 'path';
@@ -18,7 +19,7 @@ export default (enumsDir, keywords) => {
 		
 		const existingKeywords = transform(val.content, (acc, val, key) => {
 			
-			const keyword = keywords.find(v => key.includes(v)) ?? 'DEFAULT';
+			const keyword = keywords.find(v => key.replace(snakeCase(name).toUpperCase(), '').includes(v)) ?? 'DEFAULT';
 			
 			if (keyword && !acc.includes(keyword))
 				acc.push(keyword);
