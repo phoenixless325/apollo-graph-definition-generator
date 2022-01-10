@@ -115,9 +115,11 @@ const graphDefinitionGenerator = ({ typeDefs = '', resolversDir, prepareMiddlewa
 				if (resolver.type === 'scalar')
 					acc[resolver.name] = resolver.resolverFunc;
 				else {
+					const resolverMiddlewares = combineResolvers.apply(null, [...middlewares, resolver.resolverFunc]);
+					
 					const resolverValue = resolver.type === 'subscription'
-						? { subscribe: resolver.resolverFunc }
-						: combineResolvers.apply(null, [...middlewares, resolver.resolverFunc]);
+						? { subscribe: resolverMiddlewares }
+						: resolverMiddlewares;
 					
 					set(acc, `${capitalize(resolver.type)}.${resolver.name}`, resolverValue);
 				}
